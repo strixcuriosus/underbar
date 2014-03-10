@@ -96,7 +96,7 @@ var _ = { };
     });
     return result;
   };
-
+  //NOTE from HackR checkin #1 with Daniel: try to use an object instead of an array
 
   // Return the results of applying an iterator to each element.
   _.map = function(array, iterator) {
