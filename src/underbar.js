@@ -229,6 +229,7 @@ var _ = { };
     }
     return obj;
   };
+  //use each instead of loops
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
