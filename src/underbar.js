@@ -365,6 +365,21 @@ var _ = { };
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var ans, toZip, sortedArgs, len, counter, miniArray; 
+    ans = [];
+    toZip = Array.prototype.slice.call(arguments);
+    sortedArgs = _.sortBy(toZip.slice(), 'length');
+    len = sortedArgs[sortedArgs.length - 1]['length'];
+    counter = 0;
+    while (counter < len){
+      var minilist = [];
+       _.each(toZip, function(x){
+        minilist.push(x[counter]);
+       })
+       ans.push(minilist);
+       counter++;
+     }
+    return ans;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
