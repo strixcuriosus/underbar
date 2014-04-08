@@ -448,6 +448,30 @@ var _ = { };
   //
   // See the Underbar readme for details.
   _.throttle = function(func, wait) {
+    var called = 0, ans;
+    return function(){
+      if (called === 0) {
+        var ans = func();
+        called++;
+        setTimeout(function(){
+          if (called > 0){
+            called = 0;
+          } else{
+            called = 1;
+          }
+        }, wait)
+        return ans;
+      } else if (called === 1) {
+        setTimeout(function(){
+          func();
+          called = 1;
+        }, wait);
+        return ans;
+      } else {
+        //called++;
+        return ans;
+      }
+    };
   };
 
 }).call(this);
