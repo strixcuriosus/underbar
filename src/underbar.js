@@ -448,30 +448,29 @@ var _ = { };
   //
   // See the Underbar readme for details.
   _.throttle = function(func, wait) {
-    var called = 0, ans;
-    return function(){
-      if (called === 0) {
-        var ans = func();
-        called++;
+    var throttled = false,
+    prevCallTime = 0,
+    args = Array.prototype.slice.call(arguments, 2),
+    ans, remaining, timeElapsed;
+ 
+    return function() {
+       var now = Date.now();
+       timeElapsed = now - prevCallTime;
+       if (timeElapsed >= wait) {
+         prevCallTime = now;
+         ans = func.apply(null, args);
+       } else if (! throttled){
+        throttled = true;
         setTimeout(function(){
-          if (called > 0){
-            called = 0;
-          } else{
-            called = 1;
-          }
-        }, wait)
-        return ans;
-      } else if (called === 1) {
-        setTimeout(function(){
-          func();
-          called = 1;
-        }, wait);
-        return ans;
-      } else {
-        //called++;
-        return ans;
-      }
+          ans = func.apply(null, args);
+          throttled = false;
+          prevCallTime = Date.now();
+          return ans;
+        }, wait - timeElapsed)
+       }
+ 
+       return ans;
     };
-  };
+  };  
 
 }).call(this);
